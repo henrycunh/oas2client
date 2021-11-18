@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "moduleResolution": "Node",
+        "declaration": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "strict": true,
+        "types": [
+            "@types/node"
+        ],
+        "lib": [
+            "ESNext",
+            "ESNext.AsyncIterable",
+        ],
+        "baseUrl": ".",
+        "esModuleInterop": true,
+    },
+    "exclude": [
+        "node_modules",
+        "src/template/*"
+    ],
+    "include": [
+        "src/**/*"
+    ]
+}
