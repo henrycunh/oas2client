@@ -1,6 +1,6 @@
 {
     "name": "oas2client",
-    "version": "0.0.3",
+    "version": "0.0.5",
     "description": "Convert OpenAPI specifications to clients, with extendable configuration",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -8,7 +8,9 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "npx tsc && cp -r src/template dist/"
     },
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "author": "",
     "license": "ISC",
     "dependencies": {
