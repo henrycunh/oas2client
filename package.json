@@ -1,6 +1,6 @@
 {
     "name": "oas2client",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "description": "Convert OpenAPI specifications to clients, with extendable configuration",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
