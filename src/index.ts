@@ -7,9 +7,14 @@ import yaml from 'yaml'
 
 
 const OAS = {
-
-    async createClient(definition: string | Array<string>, serviceDirectoryPath: string) {
-        const definitionList = Array.isArray(definition) ? definition : [definition]
+    async createClient(definition: string | Array<string> | {[serviceName: string]: string}, serviceDirectoryPath: string) {
+        // this is ugly, i'm sorry
+        const definitionList = 
+            Array.isArray(definition) ? 
+                definition : 
+                typeof definition === 'string' ?
+                    [definition] :
+                    Object.values(definition)
         const fullServiceDirectoryPath = path.join(process.cwd(), serviceDirectoryPath)
         const serviceTemplateContent = fs.readFileSync(path.join(__dirname, "./template/client.template"), "utf8")
 
@@ -17,13 +22,16 @@ const OAS = {
             fs.mkdirSync(fullServiceDirectoryPath)
         }
 
-        for (const definition of definitionList) {
-            const serviceName = path.basename(definition, path.extname(definition))
-            const isDefinitionUrl = /^https?:\/\//.test(definition)
-            const definitionWithFlattenedReferences = !isDefinitionUrl ? (await OASParser.flattenReferences(definition)) as Document : definition
+        for (const currentDefinition of definitionList) {
+            const serviceNameFromMap = typeof definition === 'object' && !Array.isArray(definition) ? 
+                Object.keys(definition).find(key => definition[key] === currentDefinition) : 
+                null
+            const serviceName = serviceNameFromMap || path.basename(currentDefinition, path.extname(currentDefinition)) 
+            const isDefinitionUrl = /^https?:\/\//.test(currentDefinition)
+            const definitionWithFlattenedReferences = !isDefinitionUrl ? (await OASParser.flattenReferences(currentDefinition)) as Document : currentDefinition
             const definitionTypes = (await OASTypeGenerator.generate(
                 isDefinitionUrl ? 
-                    definition : 
+                    currentDefinition : 
                     definitionWithFlattenedReferences,
                 { transformOperationName: (operation: string) => operation }
             )).join('\n')
@@ -44,7 +52,7 @@ const OAS = {
             const serviceDefinitionContent = serviceTemplateContent.replace(
                 /\{definition\}/g, 
                 isDefinitionUrl ?
-                    definition :
+                    currentDefinition :
                     definitionWithFlattenedReferencesPath
             )
             const serviceContentWithTypes = [
@@ -56,7 +64,6 @@ const OAS = {
             fs.writeFileSync(path.join(serviceDirectory, 'index.ts'), serviceContentWithTypes)
         }
     }
-
 }
 
 export default OAS

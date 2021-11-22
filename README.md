@@ -35,3 +35,6 @@ import MyAPI from './services/my-api'
 
 const client = await MyAPI({ /* axios configuration */})
 ```
+
+## Examples
+- [Petstore API](./examples/petstore)
