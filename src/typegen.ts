@@ -36,6 +36,7 @@ export default class OASTypeGenerator {
             "import type {",
             "    OpenAPIClient,",
             "    Parameters,",
+            "    Document,",
             "    UnknownParamsObject,",
             "    OperationResponse,",
             "    AxiosRequestConfig,",

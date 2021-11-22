@@ -48,17 +48,28 @@ const OAS = {
                 fs.writeFileSync(definitionWithFlattenedReferencesPath, yaml.stringify(definitionWithFlattenedReferences))
             }
 
-            // Consolidate the definition and the types into a single file
-            const serviceDefinitionContent = serviceTemplateContent.replace(
-                /\{definition\}/g, 
+            const definitionContentReplacement = 
                 isDefinitionUrl ?
-                    currentDefinition :
-                    definitionWithFlattenedReferencesPath
-            )
+                    currentDefinition : 
+                    `\n\tJSON.parse(\n\t\t\`${JSON.stringify(
+                        definitionWithFlattenedReferences
+                    )}\n\t\t\`) as Document`
+
+            // Consolidate the definition and the types into a single file
+            const serviceDefinitionContent = serviceTemplateContent
+                .replace(
+                    /\{definition\}/g, 
+                    definitionContentReplacement
+                )
+                
             const serviceContentWithTypes = [
                 definitionTypes,
                 serviceDefinitionContent
-            ].join('\n')
+            ]
+            .join('\n')
+            .replace(
+                / +/g, ' '
+            )
 
             // Write the service definition
             fs.writeFileSync(path.join(serviceDirectory, 'index.ts'), serviceContentWithTypes)

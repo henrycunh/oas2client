@@ -1,6 +1,6 @@
 import OAClient from 'openapi-client-axios'
 
 export default async function client (config?: AxiosRequestConfig) {
-    const api = new OAClient({ definition: '{definition}', axiosConfigDefaults: config })
+    const api = new OAClient({ definition: {definition}, axiosConfigDefaults: config })
     return await api.init<Client>()
 }
