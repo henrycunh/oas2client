@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es2017",
+        "target": "ESNext",
         "module": "commonjs",
         "moduleResolution": "Node",
         "declaration": true,
@@ -19,7 +19,8 @@
     },
     "exclude": [
         "node_modules",
-        "src/template/*"
+        "src/template/*",
+        "examples"
     ],
     "include": [
         "src/**/*"
