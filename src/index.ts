@@ -50,7 +50,7 @@ const OAS = {
 
             const definitionContentReplacement = 
                 isDefinitionUrl ?
-                    currentDefinition : 
+                    `'${currentDefinition}'` : 
                     `\n\tJSON.parse(\n\t\t\`${JSON.stringify(
                         definitionWithFlattenedReferences
                     )}\n\t\t\`) as Document`
