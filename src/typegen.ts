@@ -2,12 +2,14 @@
 // thanks @anttiviljami!
 
 import _ from 'lodash'
-import OpenAPIClientAxios, { Document, HttpMethod, Operation } from "openapi-client-axios"
-import DtsGenerator, {
+import type { Document, Operation } from 'openapi-client-axios'
+import OpenAPIClientAxios, { HttpMethod } from 'openapi-client-axios'
+import type {
     ExportedType,
-} from "@anttiviljami/dtsgenerator/dist/core/dtsGenerator"
-import RefParser from "@apidevtools/json-schema-ref-parser"
-import { parseSchema } from "@anttiviljami/dtsgenerator/dist/core/type"
+} from '@anttiviljami/dtsgenerator/dist/core/dtsGenerator'
+import DtsGenerator from '@anttiviljami/dtsgenerator/dist/core/dtsGenerator'
+import RefParser from '@apidevtools/json-schema-ref-parser'
+import { parseSchema } from '@anttiviljami/dtsgenerator/dist/core/type'
 import indent from './utils/indent'
 
 interface TypegenOptions {
@@ -17,7 +19,7 @@ interface TypegenOptions {
 export default class OASTypeGenerator {
     static async generate(
         definition: Document | string,
-        opts: TypegenOptions
+        opts: TypegenOptions,
     ) {
         const rootSchema = await RefParser.bundle(definition)
         const schema = parseSchema(rootSchema as any)
@@ -29,30 +31,30 @@ export default class OASTypeGenerator {
         const operationTypings = OASTypeGenerator.generateOperationMethodTypings(
             api,
             exportedTypes,
-            opts
+            opts,
         )
-    
+
         const imports = [
-            "import type {",
-            "    OpenAPIClient,",
-            "    Parameters,",
-            "    Document,",
-            "    UnknownParamsObject,",
-            "    OperationResponse,",
-            "    AxiosRequestConfig,",
-            `} from 'openapi-client-axios'`,
-        ].join("\n")
-    
+            'import type {',
+            '    OpenAPIClient,',
+            '    Parameters,',
+            '    Document,',
+            '    UnknownParamsObject,',
+            '    OperationResponse,',
+            '    AxiosRequestConfig,',
+            '} from \'openapi-client-axios\'',
+        ].join('\n')
+
         return [imports, schemaTypes, operationTypings]
     }
 
     private static generateMethodForOperation(
         methodName: string,
         operation: Operation,
-        exportTypes: ExportedType[]
+        exportTypes: ExportedType[],
     ) {
         const { operationId, summary, description } = operation
-    
+
         // parameters arg
         const normalizedOperationId = operationId
         const parameterTypePaths = _.chain([
@@ -70,61 +72,61 @@ export default class OASTypeGenerator {
             }),
         ])
             .filter()
-            .map("path")
+            .map('path')
             .value()
-    
+
         const parametersType = !_.isEmpty(parameterTypePaths)
-            ? parameterTypePaths.join(" & ")
-            : "UnknownParamsObject"
+            ? parameterTypePaths.join(' & ')
+            : 'UnknownParamsObject'
         const parametersArg = `parameters?: Parameters<${parametersType}> | null`
-    
+
         const requestBodyType = _.find(exportTypes, {
             schemaRef: `#/paths/${normalizedOperationId}/requestBody`,
         })
-        const dataArg = `data?: ${requestBodyType ? requestBodyType.path : "any"}`
-    
+        const dataArg = `data?: ${requestBodyType ? requestBodyType.path : 'any'}`
+
         const responseTypePaths = _.chain(exportTypes)
             .filter(({ schemaRef }: any) =>
-                schemaRef.startsWith(`#/paths/${normalizedOperationId}/responses/2`)
+                schemaRef.startsWith(`#/paths/${normalizedOperationId}/responses/2`),
             )
             .map(({ path }) =>
                 path
-                    .split(".")
+                    .split('.')
                     // Operation.Responses.200 => Operation.Responses.$200
                     .map((key, i) =>
-                        i === path.split(".").length - 1 ? `$${key.replace('$', '')}` : key
+                        i === path.split('.').length - 1 ? `$${key.replace('$', '')}` : key,
                     )
-                    .join(".")
+                    .join('.'),
             )
             .value()
         const responseType = !_.isEmpty(responseTypePaths)
-            ? responseTypePaths.join(" | ")
-            : "any"
+            ? responseTypePaths.join(' | ')
+            : 'any'
         const returnType = `OperationResponse<${responseType}>`
-    
+
         const operationArgs = [
             parametersArg,
             dataArg,
-            "config?: AxiosRequestConfig",
+            'config?: AxiosRequestConfig',
         ]
         const operationMethod = `'${methodName}'(\n${operationArgs
-            .map((arg) => indent(arg, 4))
-            .join(",\n")}  \n): ${returnType}`
-    
-        const content = _.filter([summary, description]).join("\n\n")
-        const comment =
-            "/**\n" +
-            indent(
-                content === "" ? methodName : `${methodName} - ${content}`,
-                1,
-                {
-                    indent: " * ",
-                    includeEmptyLines: true,
-                }
-            ) +
-            "\n */"
-    
-        return [comment, operationMethod].join("\n")
+            .map(arg => indent(arg, 4))
+            .join(',\n')}  \n): ${returnType}`
+
+        const content = _.filter([summary, description]).join('\n\n')
+        const comment
+            = `/**\n${
+                indent(
+                    content === '' ? methodName : `${methodName} - ${content}`,
+                    1,
+                    {
+                        indent: ' * ',
+                        includeEmptyLines: true,
+                    },
+                )
+            }\n */`
+
+        return [comment, operationMethod].join('\n')
     }
 
     private static generateOperationMethodTypings(
@@ -137,17 +139,17 @@ export default class OASTypeGenerator {
             const defaultTransform = (operation: string) => operation
             const methodName = (opts.transformOperationName || defaultTransform)(op.operationId || 'fvck')
             return OASTypeGenerator.generateMethodForOperation(
-                methodName, op, exportTypes
+                methodName, op, exportTypes,
             )
         })
-    
+
         const pathOperationTypes = _.entries(api.definition.paths).map(
             ([path, pathItem]) => {
                 const methodTypings: string[] = []
                 for (const m in pathItem) {
                     if (
-                        pathItem[m as HttpMethod] &&
-                        _.includes(Object.values(HttpMethod), m)
+                        pathItem[m as HttpMethod]
+                        && _.includes(Object.values(HttpMethod), m)
                     ) {
                         const method = m as HttpMethod
                         const operation = _.find(operations, { path, method })
@@ -156,33 +158,30 @@ export default class OASTypeGenerator {
                                 OASTypeGenerator.generateMethodForOperation(
                                     method,
                                     operation,
-                                    exportTypes
-                                )
+                                    exportTypes,
+                                ),
                             )
                         }
                     }
                 }
                 return [
                     `['${path}']: {`,
-                    ...methodTypings.map((m) => indent(m, 4)),
-                    "}",
-                ].join("\n")
-            }
+                    ...methodTypings.map(m => indent(m, 4)),
+                    '}',
+                ].join('\n')
+            },
         )
-    
+
         return [
-            "export interface OperationMethods {",
-            ...operationTypings.map((op) => indent(op, 4)),
-            "}",
-            "",
-            "export interface PathsDictionary {",
-            ...pathOperationTypes.map((p) => indent(p, 4)),
-            "}",
-            "",
-            "export type Client = OpenAPIClient<OperationMethods, PathsDictionary>",
-        ].join("\n")
+            'export interface OperationMethods {',
+            ...operationTypings.map(op => indent(op, 4)),
+            '}',
+            '',
+            'export interface PathsDictionary {',
+            ...pathOperationTypes.map(p => indent(p, 4)),
+            '}',
+            '',
+            'export type Client = OpenAPIClient<OperationMethods, PathsDictionary>',
+        ].join('\n')
     }
-    
-    
-    
 }
