@@ -1,10 +1,13 @@
-import OAS2Client from '../../src/index'
+import { createClientFromOpenAPI } from '../../src/index'
 
-(async function createServices(){
-    await OAS2Client.createClient(
+(async function createServices() {
+    await createClientFromOpenAPI(
         {
-            petstore: 'https://petstore.swagger.io/v2/swagger.json'
+            petstore: 'https://petstore.swagger.io/v2/swagger.json',
         },
-        'services'
+        'services',
+        {
+            transformOperationName: operation => operation.toUpperCase(),
+        },
     )
 })()
