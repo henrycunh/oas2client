@@ -7,7 +7,7 @@ import { createClientFromOpenAPI } from '../../src/index'
         },
         'services',
         {
-            transformOperationName: operation => operation.toUpperCase(),
+            transformOperationName: (operation) => { return operation.toUpperCase() },
         },
     )
 })()

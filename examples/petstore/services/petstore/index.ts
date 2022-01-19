@@ -313,179 +313,179 @@ declare namespace Paths {
 
 export interface OperationMethods {
  /**
- * uploadFile - uploads an image
+ * UPLOADFILE - uploads an image
  */
- 'uploadFile'(
+ 'UPLOADFILE'(
  parameters?: Parameters<Paths.UploadFile.PathParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<Paths.UploadFile.Responses.$200>
  /**
- * updatePet - Update an existing pet
+ * UPDATEPET - Update an existing pet
  */
- 'updatePet'(
+ 'UPDATEPET'(
  parameters?: Parameters<UnknownParamsObject> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  /**
- * addPet - Add a new pet to the store
+ * ADDPET - Add a new pet to the store
  */
- 'addPet'(
+ 'ADDPET'(
  parameters?: Parameters<UnknownParamsObject> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  /**
- * findPetsByStatus - Finds Pets by status
+ * FINDPETSBYSTATUS - Finds Pets by status
  * 
  * Multiple status values can be provided with comma separated strings
  */
- 'findPetsByStatus'(
+ 'FINDPETSBYSTATUS'(
  parameters?: Parameters<Paths.FindPetsByStatus.QueryParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<Paths.FindPetsByStatus.Responses.$200>
  /**
- * findPetsByTags - Finds Pets by tags
+ * FINDPETSBYTAGS - Finds Pets by tags
  * 
  * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  */
- 'findPetsByTags'(
+ 'FINDPETSBYTAGS'(
  parameters?: Parameters<Paths.FindPetsByTags.QueryParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<Paths.FindPetsByTags.Responses.$200>
  /**
- * getPetById - Find pet by ID
+ * GETPETBYID - Find pet by ID
  * 
  * Returns a single pet
  */
- 'getPetById'(
+ 'GETPETBYID'(
  parameters?: Parameters<Paths.GetPetById.PathParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<Paths.GetPetById.Responses.$200>
  /**
- * updatePetWithForm - Updates a pet in the store with form data
+ * UPDATEPETWITHFORM - Updates a pet in the store with form data
  */
- 'updatePetWithForm'(
+ 'UPDATEPETWITHFORM'(
  parameters?: Parameters<Paths.UpdatePetWithForm.PathParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  /**
- * deletePet - Deletes a pet
+ * DELETEPET - Deletes a pet
  */
- 'deletePet'(
+ 'DELETEPET'(
  parameters?: Parameters<Paths.DeletePet.PathParameters & Paths.DeletePet.HeaderParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  /**
- * getInventory - Returns pet inventories by status
- * 
- * Returns a map of status codes to quantities
+ * PLACEORDER - Place an order for a pet
  */
- 'getInventory'(
- parameters?: Parameters<UnknownParamsObject> | null,
- data?: any,
- config?: AxiosRequestConfig 
- ): OperationResponse<Paths.GetInventory.Responses.$200>
- /**
- * placeOrder - Place an order for a pet
- */
- 'placeOrder'(
+ 'PLACEORDER'(
  parameters?: Parameters<UnknownParamsObject> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<Paths.PlaceOrder.Responses.$200>
  /**
- * getOrderById - Find purchase order by ID
+ * GETORDERBYID - Find purchase order by ID
  * 
  * For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions
  */
- 'getOrderById'(
+ 'GETORDERBYID'(
  parameters?: Parameters<Paths.GetOrderById.PathParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<Paths.GetOrderById.Responses.$200>
  /**
- * deleteOrder - Delete purchase order by ID
+ * DELETEORDER - Delete purchase order by ID
  * 
  * For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors
  */
- 'deleteOrder'(
+ 'DELETEORDER'(
  parameters?: Parameters<Paths.DeleteOrder.PathParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  /**
- * createUsersWithListInput - Creates list of users with given input array
+ * GETINVENTORY - Returns pet inventories by status
+ * 
+ * Returns a map of status codes to quantities
  */
- 'createUsersWithListInput'(
+ 'GETINVENTORY'(
+ parameters?: Parameters<UnknownParamsObject> | null,
+ data?: any,
+ config?: AxiosRequestConfig 
+ ): OperationResponse<Paths.GetInventory.Responses.$200>
+ /**
+ * CREATEUSERSWITHARRAYINPUT - Creates list of users with given input array
+ */
+ 'CREATEUSERSWITHARRAYINPUT'(
  parameters?: Parameters<UnknownParamsObject> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  /**
- * getUserByName - Get user by user name
+ * CREATEUSERSWITHLISTINPUT - Creates list of users with given input array
  */
- 'getUserByName'(
+ 'CREATEUSERSWITHLISTINPUT'(
+ parameters?: Parameters<UnknownParamsObject> | null,
+ data?: any,
+ config?: AxiosRequestConfig 
+ ): OperationResponse<any>
+ /**
+ * GETUSERBYNAME - Get user by user name
+ */
+ 'GETUSERBYNAME'(
  parameters?: Parameters<Paths.GetUserByName.PathParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<Paths.GetUserByName.Responses.$200>
  /**
- * updateUser - Updated user
+ * UPDATEUSER - Updated user
  * 
  * This can only be done by the logged in user.
  */
- 'updateUser'(
+ 'UPDATEUSER'(
  parameters?: Parameters<Paths.UpdateUser.PathParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  /**
- * deleteUser - Delete user
+ * DELETEUSER - Delete user
  * 
  * This can only be done by the logged in user.
  */
- 'deleteUser'(
+ 'DELETEUSER'(
  parameters?: Parameters<Paths.DeleteUser.PathParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  /**
- * loginUser - Logs user into the system
+ * LOGINUSER - Logs user into the system
  */
- 'loginUser'(
+ 'LOGINUSER'(
  parameters?: Parameters<Paths.LoginUser.QueryParameters> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<Paths.LoginUser.Responses.$200>
  /**
- * logoutUser - Logs out current logged in user session
+ * LOGOUTUSER - Logs out current logged in user session
  */
- 'logoutUser'(
+ 'LOGOUTUSER'(
  parameters?: Parameters<UnknownParamsObject> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  /**
- * createUsersWithArrayInput - Creates list of users with given input array
- */
- 'createUsersWithArrayInput'(
- parameters?: Parameters<UnknownParamsObject> | null,
- data?: any,
- config?: AxiosRequestConfig 
- ): OperationResponse<any>
- /**
- * createUser - Create user
+ * CREATEUSER - Create user
  * 
  * This can only be done by the logged in user.
  */
- 'createUser'(
+ 'CREATEUSER'(
  parameters?: Parameters<UnknownParamsObject> | null,
  data?: any,
  config?: AxiosRequestConfig 
@@ -573,18 +573,6 @@ export interface PathsDictionary {
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  }
- ['/store/inventory']: {
- /**
- * get - Returns pet inventories by status
- * 
- * Returns a map of status codes to quantities
- */
- 'get'(
- parameters?: Parameters<UnknownParamsObject> | null,
- data?: any,
- config?: AxiosRequestConfig 
- ): OperationResponse<Paths.GetInventory.Responses.$200>
- }
  ['/store/order']: {
  /**
  * post - Place an order for a pet
@@ -613,6 +601,28 @@ export interface PathsDictionary {
  */
  'delete'(
  parameters?: Parameters<Paths.DeleteOrder.PathParameters> | null,
+ data?: any,
+ config?: AxiosRequestConfig 
+ ): OperationResponse<any>
+ }
+ ['/store/inventory']: {
+ /**
+ * get - Returns pet inventories by status
+ * 
+ * Returns a map of status codes to quantities
+ */
+ 'get'(
+ parameters?: Parameters<UnknownParamsObject> | null,
+ data?: any,
+ config?: AxiosRequestConfig 
+ ): OperationResponse<Paths.GetInventory.Responses.$200>
+ }
+ ['/user/createWithArray']: {
+ /**
+ * post - Creates list of users with given input array
+ */
+ 'post'(
+ parameters?: Parameters<UnknownParamsObject> | null,
  data?: any,
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
@@ -677,16 +687,6 @@ export interface PathsDictionary {
  config?: AxiosRequestConfig 
  ): OperationResponse<any>
  }
- ['/user/createWithArray']: {
- /**
- * post - Creates list of users with given input array
- */
- 'post'(
- parameters?: Parameters<UnknownParamsObject> | null,
- data?: any,
- config?: AxiosRequestConfig 
- ): OperationResponse<any>
- }
  ['/user']: {
  /**
  * post - Create user
@@ -705,6 +705,8 @@ export type Client = OpenAPIClient<OperationMethods, PathsDictionary>
 import OAClient from 'openapi-client-axios'
 
 export default async function client (config?: AxiosRequestConfig) {
- const api = new OAClient({ definition: 'https://petstore.swagger.io/v2/swagger.json', axiosConfigDefaults: config })
+ const api = new OAClient({ definition: 'https://petstore.swagger.io/v2/swagger.json', axiosConfigDefaults: config, transformOperationName: (operation) => {
+ return operation.toUpperCase();
+ } })
  return await api.init<Client>()
 }
